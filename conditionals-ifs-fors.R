@@ -170,3 +170,47 @@ for (i in seq_along(tigers)){
 }
 
 big_cats
+
+# For loops across columns of a data frame
+
+# create vector to store values
+mean_mtcars <- vector(mode = "numeric", length = ncol(mtcars))
+
+for (i in 1:ncol(mtcars)){
+  mean_val <- mean(mtcars[[i]], na.rm = TRUE)
+  mean_mtcars[[i]] <- mean_val
+}
+
+# A for loop over columns with a condition
+
+library(palmerpenguins)
+
+for (i in 1:ncol(penguins)){
+  if(is.numeric(penguins[[i]])){
+    penguin_median <- median(penguins[[i]], na.rm = TRUE)
+    print(penguin_median)
+  } else{
+    print("data not numeric")
+  }
+}
+
+# Functional programming
+
+# apply() function iterates over columns or rows
+
+# rewrite our for loop for finding mean values of the columns in mtcars
+
+# MARGIN = 2 is by column, = 1 is by row
+apply(X = mtcars, MARGIN = 2, FUN = mean)
+# same as saying apply the function mean across the columns in mtcars
+
+# dplyr::across(), group_by() and summarize() in combo
+
+library(tidyverse)
+
+penguins %>% 
+  group_by(species) %>% 
+  summarize(across(where(is.numeric), mean, na.rm = TRUE))
+
+# get back df with species x numeric column means
+
