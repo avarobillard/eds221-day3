@@ -208,9 +208,11 @@ apply(X = mtcars, MARGIN = 2, FUN = mean)
 
 library(tidyverse)
 
-penguins %>% 
+penguins2 <- penguins %>% 
   group_by(species) %>% 
   summarize(across(where(is.numeric), mean, na.rm = TRUE))
+
+view(penguins2)
 
 # get back df with species x numeric column means
 
